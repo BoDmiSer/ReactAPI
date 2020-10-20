@@ -28,6 +28,10 @@ class TutorialDataService {
   findByTitle(title) {
     return http.get(`/tutorials?title=${title}`);
   }
+  
+  getAllPublished(params){
+    return http.get("/tutorials/published", { params });
+}
 }
 
 export default new TutorialDataService();

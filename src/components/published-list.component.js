@@ -3,14 +3,13 @@ import TutorialDataService from "../services/tutorial.service";
 import { Link } from "react-router-dom";
 import Pagination from "@material-ui/lab/Pagination";
 
-export default class TutorialsList extends Component {
+export default class PublishedList extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
     this.retrieveTutorials = this.retrieveTutorials.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveTutorial = this.setActiveTutorial.bind(this);
-    this.removeAllTutorials = this.removeAllTutorials.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
 
@@ -62,7 +61,7 @@ export default class TutorialsList extends Component {
     const { searchTitle, page, pageSize } = this.state;
     const params = this.getRequestParams(searchTitle, page, pageSize);
 
-    TutorialDataService.getAll(params)
+    TutorialDataService.getAllPublished(params)
       .then((response) => {
         const { tutorials, totalPages } = response.data;
 
@@ -90,17 +89,6 @@ export default class TutorialsList extends Component {
       currentTutorial: tutorial,
       currentIndex: index,
     });
-  }
-
-  removeAllTutorials() {
-    TutorialDataService.deleteAll()
-      .then((response) => {
-        console.log(response.data);
-        this.refreshList();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
   }
 
   handlePageChange(event, value) {
@@ -199,13 +187,6 @@ export default class TutorialsList extends Component {
                 </li>
               ))}
           </ul>
-
-          <button
-            className="m-3 btn btn-sm btn-danger"
-            onClick={this.removeAllTutorials}
-          >
-            Remove All
-          </button>
         </div>
         <div className="col-md-6">
           {currentTutorial ? (
