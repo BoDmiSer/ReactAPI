@@ -12,6 +12,7 @@ export default class PublishedList extends Component {
     this.setActiveTutorial = this.setActiveTutorial.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
+    this.onChangeNumber = this.onChangeNumber.bind(this);
 
     this.state = {
       tutorials: [],
@@ -37,6 +38,19 @@ export default class PublishedList extends Component {
     this.setState({
       searchTitle: searchTitle,
     });
+  }
+
+  onChangeNumber() {
+    if (this.state.searchTitle != ""){      
+      this.setState({
+        page: 0,
+      },() => {
+        this.retrieveTutorials();
+      }
+      );
+    }else{
+      this.retrieveTutorials();
+    }
   }
 
   getRequestParams(searchTitle, page, pageSize) {
@@ -140,7 +154,7 @@ export default class PublishedList extends Component {
               <button
                 className="btn btn-outline-secondary"
                 type="button"
-                onClick={this.retrieveTutorials}
+                onClick={this.onChangeNumber}
               >
                 Search
               </button>
